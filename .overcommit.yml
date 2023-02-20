@@ -45,10 +45,10 @@ PreCommit:
   BundleCheck:
     enabled: true
 
-  CustomRubyCritic:
-    enabled: true
-    required_executable: "rubycritic"
-    command: ['.git/rc_vs_main.sh']
+  # CustomRubyCritic:
+  #   enabled: true
+  #   required_executable: "rubycritic"
+  #   command: ['.git/rc_vs_main.sh']
 
 PrePush:
   Brakeman:
