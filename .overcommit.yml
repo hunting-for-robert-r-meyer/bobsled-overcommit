@@ -1,0 +1,83 @@
+# Use this file to configure the Overcommit hooks you wish to use. This will
+# extend the default configuration defined in:
+# https://github.com/sds/overcommit/blob/master/config/default.yml
+#
+# At the topmost level of this YAML file is a key representing type of hook
+# being run (e.g. pre-commit, commit-msg, etc.). Within each type you can
+# customize each hook, such as whether to only run it on certain files (via
+# `include`), whether to only display output if it fails (via `quiet`), etc.
+#
+# For a complete list of hooks, see:
+# https://github.com/sds/overcommit/tree/master/lib/overcommit/hook
+#
+# For a complete list of options that you can use to customize hooks, see:
+# https://github.com/sds/overcommit#configuration
+#
+# Uncomment the following lines to make the configuration take effect.
+
+PreCommit:
+  RuboCop:
+    enabled: true
+    on_warn: fail # Treat all warnings as failures
+    command: ['bundle', 'exec', 'rubocop']
+
+  ShellCheck:
+    enabled: true
+    on_fail: warn
+    include: '**/*.sh'
+
+  Fasterer:
+    enabled: true
+
+  Reek:
+    on_fail: warn
+    enabled: true
+
+  RubyCritic:
+    enabled: true
+
+  MergeConflicts:
+    enabled: true
+
+  YamlSyntax:
+    enabled: true
+
+  BundleCheck:
+    enabled: true
+
+  CustomRubyCritic:
+    enabled: true
+    required_executable: "rubycritic"
+    command: ['.git/rc_vs_main.sh']
+
+PrePush:
+  Brakeman:
+    on_fail: warn
+    enabled: false
+
+  Pronto:
+    enabled: true
+    command: ["pronto", "-c", "main"]
+    verbose: true
+
+PostCheckout:
+  BundleInstall:
+    enabled: true
+    description: 'Bundle install'
+    required_executable: 'bundle'
+    install_command: 'gem install bundler'
+    flags: ['install']
+    include:
+      - 'Gemfile'
+      - 'Gemfile.lock'
+      - '*.gemspec'
+
+  YarnInstall:
+    enabled: true
+    description: 'Install Yarn dependencies'
+    requires_files: true
+    required_executable: 'yarn'
+    flags: ['install']
+    include:
+      - 'package.json'
+      - 'yarn.lock'
